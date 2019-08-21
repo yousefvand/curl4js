@@ -1,0 +1,5 @@
+resources/
+.vscode/
+.github/
+tests/
+docs/

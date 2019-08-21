@@ -1,0 +1,37 @@
+{
+  "name": "curl4js",
+  "version": "0.1.0",
+  "description": "Run curl commands in js",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/jest --detectOpenHandles --verbose",
+    "spellcheck": "./node_modules/.bin/cspell --config .vscode/settings.json \"lib/*\" \"tests/*\"",
+    "build:docs": "./node_modules/.bin/documentation build ./lib/index.js -f md -o ./docs/curl4js.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yousefvand/curl4js.git"
+  },
+  "keywords": [
+    "curl",
+    "axios"
+  ],
+  "author": "Remisa Yousefvand <remisa.yousefvand@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yousefvand/curl4js/issues"
+  },
+  "homepage": "https://github.com/yousefvand/curl4js#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "cspell": "^4.0.28",
+    "documentation": "^12.1.1",
+    "express": "^4.17.1",
+    "jest": "^24.9.0",
+    "standard": "^14.0.0"
+  }
+}

@@ -1,0 +1,53 @@
+const curl = require('../lib/index')
+const express = require('express')
+const app = express()
+const port = 36789
+let server = null
+
+/* eslint-env jest */
+jest.setTimeout(30000)
+
+describe('curl', () => {
+  beforeAll(() => {
+    server = app.listen(port)
+  })
+  test('simple', async () => {
+    app.get('/simple', (req, res) => {
+      expect(req.hostname).toBe('localhost')
+      expect(req.path).toBe('/simple')
+      res.send('pass')
+    })
+    const response = await curl(`curl http://localhost:${port}/simple`)
+    expect(response.data).toBe('pass')
+  })
+  test('header', async () => {
+    app.get('/header', (req, res) => {
+      expect(req.path).toBe('/header')
+      expect(req.headers).toHaveProperty('x', '123')
+      res.send('pass')
+    })
+    const response = await curl(`curl --header "X: 123" http://localhost:${port}/header`)
+    expect(response.data).toBe('pass')
+  })
+  test('user-agent', async () => {
+    app.get('/user-agent', (req, res) => {
+      expect(req.path).toBe('/user-agent')
+      expect(req.headers).toHaveProperty('user-agent', 'test')
+      res.send('pass')
+    })
+    const response = await curl(`curl -A "test" http://localhost:${port}/user-agent`)
+    expect(response.data).toBe('pass')
+  })
+  test('headers', async () => {
+    app.get('/headers', (req, res) => {
+      expect(req.path).toBe('/headers')
+      expect(req.headers).toHaveProperty('x', '1')
+      expect(req.headers).toHaveProperty('y', '2')
+      res.send('pass')
+    })
+    const response = await curl(`curl -H "X:1" -H 'Y:2' http://localhost:${port}/headers`)
+    expect(response.data).toBe('pass')
+  })
+  // Shutdown server
+  afterAll(() => server.close())
+})
