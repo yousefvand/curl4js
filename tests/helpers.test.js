@@ -12,6 +12,8 @@ describe('helpers', () => {
     expect(parsed1.switches.length).toBe(1)
     expect(parsed1.switches[0][1]).toBe('h1: v1')
     expect(() => helpers.curlParse(['-i', 'invalid-Url'], {})).toThrow()
+    expect(() => helpers.curlParse(['-d', undefined], {})).toThrow()
+    expect(() => helpers.curlParse(['http://example.com', 'invalid-Url'], {})).toThrow()
   })
   test('processFlags', () => {
     expect(helpers.processFlags(['dummy1', '--dummy2'])({})).toEqual({})

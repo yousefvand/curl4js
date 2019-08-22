@@ -1,4 +1,5 @@
 resources/
+coverage/
 .vscode/
 .github/
 tests/

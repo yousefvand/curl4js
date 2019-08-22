@@ -1,5 +1,7 @@
 const utils = require('../lib/utils')
 
+/* eslint-disable */
+/* cspell:disable */
 /* eslint-env jest */
 
 describe('utils', () => {
@@ -8,17 +10,14 @@ describe('utils', () => {
     expect(utils.isOdd(even)).not.toBe(true)
     expect(utils.isOdd(even + 1)).toBe(true)
   })
-
   test('noEmpty', () => {
     expect(utils.noEmpty('')).toBe(false)
     expect(utils.noEmpty('\n')).toBe(false)
     expect(utils.noEmpty(utils.randomString())).toBe(true)
   })
-
   test('trimEmptyLine', () => {
     expect(utils.trimEmptyLine('\na\nb\n').indexOf('\n')).toBeLessThan(0)
   })
-
   test('pipe', () => {
     const add3 = x => x + 3
     const div2 = x => x / 2
@@ -26,12 +25,10 @@ describe('utils', () => {
     expect(utils.pipe(add3, div2, cube)(13)).toBe(64)
     expect(utils.pipe(div2, cube, add3)(16)).toBe(67)
   })
-
   test('randomInt', () => { // may fail rarely
     const randoms = Array(16).fill(0).map(e => utils.randomInt(1, 0xfffffffffffff))
     expect((new Set(randoms)).size).toBe(randoms.length)
   })
-
   test('isUrl', () => {
     // Test Urls from: https://mathiasbynens.be/demo/url-regex
     const urls = [
@@ -118,38 +115,32 @@ describe('utils', () => {
     urls.forEach(url => expect(utils.isUrl(url)).toBe(true))
     nonUrls.forEach(url => expect(utils.isUrl(url)).toBe(false))
   })
-
-  test('trimQuote', () => {
-    expect(utils.trimQuote(`'a'b'c'`).indexOf(`'`)).toBe(1)
-    expect(utils.trimQuote(`'a'b'c'`).lastIndexOf(`'`)).toBe(3)
-    expect(utils.trimQuote(`"a"b"c"`).indexOf(`"`)).toBe(1)
-    expect(utils.trimQuote(`"a"b"c"`).lastIndexOf(`"`)).toBe(3)
+  test('trimSymmetricQuote', () => {
+    expect(utils.trimSymmetricQuote(`'a'b'c'`).indexOf('\'')).toBe(1)
+    expect(utils.trimSymmetricQuote(`'a'b'c'`).lastIndexOf('\'')).toBe(3)
+    expect(utils.trimSymmetricQuote(`"a"b"c"`).indexOf('"')).toBe(1)
+    expect(utils.trimSymmetricQuote(`"a"b"c"`).lastIndexOf('"')).toBe(3)
   })
-
   test('noLeadingCurl', () => {
     expect(['CURL', 'a', 'B', 'c'].filter(utils.noLeadingCurl).length).toBe(3)
     expect(['CUrL', 'a', 'CuRl', 'B'].filter(utils.noLeadingCurl).length).toBe(3)
     expect(['a', 'B', 'Curl', 'B'].filter(utils.noLeadingCurl).length).toBe(4)
   })
-
   test('charCount', () => {
     expect(utils.charCount('abcaDe', 'a')).toBe(2)
     expect(utils.charCount('1AbcadAe3A', 'A')).toBe(3)
     expect(utils.charCount(`ab'c'd'e'f`, `'`)).toBe(4)
   })
-
   test('randomString', () => { // may fail rarely
     const randoms = Array(16).fill(0).map(e => utils.randomString(0xff))
     expect((new Set(randoms)).size).toBe(randoms.length)
   })
-
   test('trimSymmetric', () => {
     const char = utils.randomString(1)
     const str = utils.randomString()
     const trimmed = utils.trimSymmetric(`${char}${str}${char}`, char)
     expect(trimmed.charAt(0) === char && trimmed.charAt(trimmed.length - 1) === char).toBe(false)
   })
-
   test('validate', () => {
     expect(() => utils.validate(`a ' b `)).toThrow()
     expect(() => utils.validate(`'a ' b ''c'`)).toThrow()
@@ -157,7 +148,6 @@ describe('utils', () => {
     expect(() => utils.validate(`"a " b ""c"`)).toThrow()
     expect(() => utils.validate('a`b')).toThrow()
   })
-
   test('rawParse', () => {
     expect(() => utils.rawParse(' "curl http://www.`example.com/ "')).toThrow()
     expect(() => utils.rawParse(` "curl http://www.'example.com/ "`)).toThrow()

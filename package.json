@@ -4,7 +4,7 @@
   "description": "Run curl commands in js",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest --detectOpenHandles --verbose",
+    "test": "./node_modules/.bin/jest --detectOpenHandles --verbose --coverage",
     "spellcheck": "./node_modules/.bin/cspell --config .vscode/settings.json \"lib/*\" \"tests/*\"",
     "build:docs": "./node_modules/.bin/documentation build ./lib/index.js -f md -o ./docs/curl4js.md"
   },
