@@ -9,5 +9,10 @@ describe('flagHandlers', () => {
     expect(flagHandlers.get('--dummy')({ a: 1 })).toEqual({ a: 1 })
     expect(flagHandlers.get('--get')({ method: 'post' })).toEqual({ method: 'post' })
   })
-  // -L | --location
+  test('location', () => { // -L || --location
+    expect(flagHandlers.location('-L')({}).maxRedirects).toBeGreaterThan(0xf)
+    expect(flagHandlers.location('-L')({ maxRedirects: 5 }).maxRedirects).toBe(5)
+    expect(flagHandlers.location('-L')({ maxRedirects: 5.2 }).maxRedirects).toBe(5)
+    expect(flagHandlers.location('-L')({ maxRedirects: -1 }).maxRedirects).toBeGreaterThan(0xf)
+  })
 })

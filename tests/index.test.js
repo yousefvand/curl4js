@@ -15,13 +15,15 @@ describe('curl', () => {
   test('Class', () => {
     const curl = new Curl4js('curl http://example.com', { a: 1 })
     expect(curl.cmd).toBe('curl http://example.com')
-    expect(curl.config).toEqual({ a: 1 })
+    expect(curl.config).toHaveProperty('a', 1)
   })
   test('Simulate', () => {
     const config = { a: 1 }
-    const curl = new Curl4js('curl http://example.com',config)
-    const expected = { a: 1, baseURL: 'http://example.com' }
-    expect(curl.simulate()).toEqual(expected)
+    const curl = new Curl4js('curl http://example.com', config)
+    const result = curl.simulate()
+    expect(result).toHaveProperty('a', 1)
+    expect(result).toHaveProperty('maxRedirects', 0)
+    expect(result).toHaveProperty('baseURL', 'http://example.com')
   })
   test('simple', async () => {
     app.get('/simple', (req, res) => {
