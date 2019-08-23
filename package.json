@@ -24,14 +24,13 @@
   "homepage": "https://github.com/yousefvand/curl4js#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "fs": "0.0.1-security",
-    "path": "^0.12.7"
+    "fs": "0.0.1-security"
   },
   "devDependencies": {
     "cspell": "^4.0.28",
     "documentation": "^12.1.1",
     "express": "^4.17.1",
     "jest": "^24.9.0",
-    "standard": "^14.0.0"
+    "standard": "^14.0.2"
   }
 }

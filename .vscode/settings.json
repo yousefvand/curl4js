@@ -5,6 +5,7 @@
     "anyauth",
     "cacert",
     "capath",
+    "cookiefile",
     "crlfile",
     "eprt",
     "epsv",

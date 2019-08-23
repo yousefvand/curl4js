@@ -18,6 +18,21 @@ describe('utils', () => {
   test('trimEmptyLine', () => {
     expect(utils.trimEmptyLine('\na\nb\n').indexOf('\n')).toBeLessThan(0)
   })
+  test('isObject', () => {
+    expect(utils.isObject(Object.create(null))).toBe(false) // just literal
+    expect(utils.isObject(null)).toBe(false)
+    expect(utils.isObject(undefined)).toBe(false)
+    expect(utils.isObject(123)).toBe(false)
+    expect(utils.isObject('string')).toBe(false)
+    expect(utils.isObject([1, 2, 3])).toBe(false)
+    expect(utils.isObject(new Date)).toBe(false)
+    expect(utils.isObject(true)).toBe(false)
+    expect(utils.isObject(123)).toBe(false)
+    expect(utils.isObject(new Object('test'))).toBe(false)
+    expect(utils.isObject(new Number(3))).toBe(false)
+    expect(utils.isObject({ a:{ b: 1 }})).toBe(true)
+    expect(utils.isObject({})).toBe(true)
+  })
   test('pipe', () => {
     const add3 = x => x + 3
     const div2 = x => x / 2
@@ -135,11 +150,47 @@ describe('utils', () => {
     const randoms = Array(16).fill(0).map(e => utils.randomString(0xff))
     expect((new Set(randoms)).size).toBe(randoms.length)
   })
+  test('merge', () => {
+    const override1 = {
+      a: 9,
+      b: [1, 2],
+      c: {
+        x: 2,
+        y: {
+          key1: 'dummy1',
+          key2: 'dummy2'
+        },
+        z: 'test'
+      }
+    }
+    const obj1 = {
+      q: 'stand',
+      b: 3,
+      c: {
+        q: 5,
+        x: 8,
+        y: {
+          key3: 22,
+          key2: 'override me'
+        }
+      }
+    }
+    utils.merge(override1, obj1)
+    expect(obj1.a).toBe(9)
+    expect(obj1.q).toBe('stand')
+    expect(obj1.b).toStrictEqual([1, 2])
+  })
   test('trimSymmetric', () => {
     const char = utils.randomString(1)
     const str = utils.randomString()
     const trimmed = utils.trimSymmetric(`${char}${str}${char}`, char)
     expect(trimmed.charAt(0) === char && trimmed.charAt(trimmed.length - 1) === char).toBe(false)
+  })
+  test('parseCookie', () => {
+    expect(utils.parseCookie('a=b')).toEqual({ a: 'b' })
+    expect(utils.parseCookie('a=b;; ; c=d')).toEqual({ a: 'b', c: 'd' })
+    expect(utils.parseCookie('E=mc%5E2')).toEqual({E: 'mc^2' })
+    expect(() => utils.parseCookie('a=%5G')).toThrow(URIError)
   })
   test('validate', () => {
     expect(() => utils.validate(`a ' b `)).toThrow()
