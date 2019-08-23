@@ -6,6 +6,9 @@ Run curl commands via axios
 
 - [x] Helper functions.
 - [x] Unit testing structure.
-- [ ] CI/CD via Github actions.
+- [ ] Complete `--data` support (pipe for digesting '@' and '&' and '=').
+- [ ] Bunch of integration tests.
+- [ ] Issue/PR Github templates.
+- [ ] CI/CD via Github actions (waiting for approval).
 - [ ] Publish to NPM.
-- [ ] Support for FTP.
+- [ ] Support for FTP?

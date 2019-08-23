@@ -40,6 +40,13 @@ describe('utils', () => {
     expect(utils.pipe(add3, div2, cube)(13)).toBe(64)
     expect(utils.pipe(div2, cube, add3)(16)).toBe(67)
   })
+  test('pipe', async () => {
+    const add3 = x => new Promise(reslove => setTimeout(()=> reslove(x + 3), 10))
+    const div2 = x => new Promise(reslove => setTimeout(()=> reslove(x / 2), 20))
+    const cube = x => new Promise(reslove => setTimeout(()=> reslove(x ** 2), 30))
+    expect(await utils.pipeAsync(add3, div2, cube)(13)).toBe(64)
+    expect(await utils.pipeAsync(div2, cube, add3)(16)).toBe(67)
+  })
   test('randomInt', () => { // may fail rarely
     const randoms = Array(16).fill(0).map(e => utils.randomInt(1, 0xfffffffffffff))
     expect((new Set(randoms)).size).toBe(randoms.length)
@@ -191,6 +198,12 @@ describe('utils', () => {
     expect(utils.parseCookie('a=b;; ; c=d')).toEqual({ a: 'b', c: 'd' })
     expect(utils.parseCookie('E=mc%5E2')).toEqual({E: 'mc^2' })
     expect(() => utils.parseCookie('a=%5G')).toThrow(URIError)
+  })
+  test('parseData', () => {
+    expect(utils.parseData('a=b')).toEqual({ a: 'b' })
+    expect(utils.parseData('a=b&& & c=d')).toEqual({ a: 'b', c: 'd' })
+    expect(utils.parseData('E=mc%5E2')).toEqual({E: 'mc^2' })
+    expect(() => utils.parseData('a=%5G')).toThrow(URIError)
   })
   test('validate', () => {
     expect(() => utils.validate(`a ' b `)).toThrow()
